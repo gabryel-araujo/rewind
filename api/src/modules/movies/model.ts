@@ -6,13 +6,13 @@ export namespace MoviesModel {
     search: z.optional(z.string()),
     genres: z.optional(
       z.preprocess(
-        (val) => (typeof val === 'string' ? val.split(',') : val),
+        (val) => typeof val === "string" && val.length > 3 ? val.split(",").filter(Boolean) : val,
         z.array(z.string()).optional()
       )
     ),
     actors: z.optional(
       z.preprocess(
-        (val) => (typeof val === 'string' ? val.split(',') : val),
+        (val) => typeof val === "string" && val.length > 3 ? val.split(",").filter(Boolean) : val,
         z.array(z.string()).optional()
       )
     ),

@@ -32,7 +32,15 @@ movieRoutes.get(
     const payload = MoviesModel
       .GET_MOVIES_QUERY.parse(request.query);
 
-    const movies = await MovieService.filterMovies(payload);
+    const { limit, releaseYear, actors, genres, search } = payload;
+
+    const movies = await MovieService.filterMovies({
+      limit,
+      actorIds: actors ?? [],
+      genreIds: genres ?? [],
+      releaseYear,
+      search,
+    });
     return response.send(movies);
   });
 

@@ -7,10 +7,11 @@ export const env = e.cleanEnv(process.env, {
   REDIS_HOST: e.str(),
   REDIS_PORT: e.port(),
 
-  MINIO_ACCESS_KEY: e.str(),
-  MINIO_SECRET_KEY: e.str(),
-  MINIO_ENDPOINT: e.str(),
-  MINIO_BUCKET: e.str(),
+  R2_ACCESS_KEY: e.str(),
+  R2_PUBLIC_URL: e.str(),
+  R2_SECRET_KEY: e.str(),
+  R2_ENDPOINT: e.str(),
+  R2_BUCKET: e.str(),
 
   SECRET: e.str(),
 

@@ -16,18 +16,19 @@ import { moviesActors } from "src/db/schema/moviesActors";
 
 type FilterMovieOptions = {
   limit: number;
-  genres?: string[];
-  actors?: string[];
+  genreIds?: string[];
+  actorIds?: string[];
   releaseYear?: number;
   search?: string;
 };
 
 export class MovieService {
+
   public static async filterMovies({
     search,
     limit,
-    actors,
-    genres: genreNames,
+    actorIds,
+    genreIds,
     releaseYear,
   }: FilterMovieOptions) {
     const conditions = [];
@@ -48,22 +49,23 @@ export class MovieService {
       );
     }
 
-    if (genreNames && genreNames.length > 0) {
+    if (genreIds && genreIds.length > 0) {
       const genreSubquery = db
         .select({ movieId: moviesGenres.movieId })
         .from(genres)
         .leftJoin(moviesGenres, eq(genres.id, moviesGenres.genreId))
-        .where(inArray(genres.name, genreNames));
+        .where(inArray(genres.id, genreIds));
 
       conditions.push(inArray(movies.id, genreSubquery));
     }
 
-    if (actors && actors.length > 0) {
+    if (actorIds && actorIds.length > 0) {
       const actorSubquery = db
         .select({ movieId: moviesActors.movieId })
         .from(actorsSchema)
         .leftJoin(moviesActors, eq(actorsSchema.id, moviesActors.actorId))
-        .where(inArray(actorsSchema.name, actors));
+        .where(inArray(actorsSchema.id, actorIds));
+
 
       conditions.push(inArray(movies.id, actorSubquery));
     }

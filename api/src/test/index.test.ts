@@ -1,3 +1,5 @@
-const salve = ['a', 'b', 'c', 'd'];
-console.log(salve.join(','));
-console.log(typeof salve.join(','));
+import { env } from "src/common/env";
+
+const { host, protocol } = new URL(env.R2_ENDPOINT)
+
+console.log(`${protocol}//rewind.${host}`)

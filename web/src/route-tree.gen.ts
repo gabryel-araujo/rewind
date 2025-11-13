@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as UserRouteImport } from './pages/_user'
 import { Route as AuthRouteImport } from './pages/_auth'
 import { Route as AppRouteImport } from './pages/_app'
+import { Route as IndexRouteImport } from './pages/index'
 import { Route as UserProfileRouteImport } from './pages/_user/profile'
 import { Route as UserMymoviesRouteImport } from './pages/_user/mymovies'
 import { Route as AuthSignupRouteImport } from './pages/_auth/signup'
@@ -31,6 +32,11 @@ const AuthRoute = AuthRouteImport.update({
 } as any)
 const AppRoute = AppRouteImport.update({
   id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UserProfileRoute = UserProfileRouteImport.update({
@@ -75,6 +81,7 @@ const AppHomeRoute = AppHomeRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/home': typeof AppHomeRoute
   '/search': typeof AppSearchRoute
   '/change-password': typeof AuthChangePasswordRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof UserProfileRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/home': typeof AppHomeRoute
   '/search': typeof AppSearchRoute
   '/change-password': typeof AuthChangePasswordRoute
@@ -96,6 +104,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
   '/_user': typeof UserRouteWithChildren
@@ -111,6 +120,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/home'
     | '/search'
     | '/change-password'
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/home'
     | '/search'
     | '/change-password'
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/profile'
   id:
     | '__root__'
+    | '/'
     | '/_app'
     | '/_auth'
     | '/_user'
@@ -145,6 +157,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
   UserRoute: typeof UserRouteWithChildren
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_user/profile': {
@@ -273,6 +293,7 @@ const UserRouteChildren: UserRouteChildren = {
 const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
   UserRoute: UserRouteWithChildren,

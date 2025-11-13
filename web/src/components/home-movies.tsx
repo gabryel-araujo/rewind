@@ -2,26 +2,24 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 import { MovieCard } from "./movie-card";
-import { useState } from "react";
 
-type StatusEnum = "WATCHED" | "WANT_WATCH" | "IM_WATCHING"
+export type StatusEnum = "WATCHED" | "WANT_WATCH" | "IM_WATCHING";
 
 export type MovieProps = {
+  id: string;
   title: string;
   photo: string;
   rate: number;
   genres: string[];
   marks: {
-    isFavorite: boolean
-    status: StatusEnum
-  }
-}
+    isFavorite: boolean;
+    status: StatusEnum;
+  };
+};
 
 export function HomeMovies({ movies }: { movies: MovieProps[] }) {
-  const [isFavorite, setIsFavorite] = useState(false) //tenho que ver como vou fazer essa questão do toggle
-
   return (
     <Carousel
       opts={{
@@ -37,6 +35,6 @@ export function HomeMovies({ movies }: { movies: MovieProps[] }) {
           </CarouselItem>
         ))}
       </CarouselContent>
-    </Carousel >
-  )
+    </Carousel>
+  );
 }
